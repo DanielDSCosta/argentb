@@ -16,62 +16,29 @@ export const login = async (email, password) => {
   return response.json();
 };
 
-//TEST
-export const updateProfile =
-  (token, newFirstName, newLastName) => async (dispatch) => {
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
+export const updateProfile = async (userName, token) => {
+  const response = await fetch(`${baseURL}/profile`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      userName,
+    }),
+  });
 
-      const { data } = await axios.put(
-        "http://localhost:3001/api/v1/user",
-        { firstName: newFirstName, lastName: newLastName },
-        config
-      );
+  return response.json();
+};
 
-      dispatch({ payload: data });
-    } catch (error) {
-      dispatch({
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      });
-    }
-  };
+export const getProfile = async (token) => {
+  const response = await fetch(`${baseURL}/profile`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-//MENTOR
-// export const GetProfile = async () => {
-//   const token = useSelect.....
-
-//   const response = await fetch(`${baseURL}/login`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       "Authorization": `Bearer ${token}`
-//     },
-//   });
-
-//   return response.json();
-// }
-
-// export const UpdateProfile = async (username) => {
-//   const token = useSelect.....
-
-//   const response = await fetch(`${baseURL}/login`, {
-//     method: "PUT",
-//     headers: {
-//       "Content-Type": "application/json",
-//       "Authorization": `Bearer ${token}`
-//     },
-//      body: JSON.stringify({
-//        username,
-//      }),
-//   });
-
-//   return response.json();
-// }
+  return response.json();
+};

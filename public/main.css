@@ -204,6 +204,15 @@ h1 {
   margin-bottom: 1rem;
 }
 
+.editbutton {
+  text-align: center;
+}
+
+.input-changement {
+  margin: 0 auto;
+  width: 20em;
+}
+
 .input-wrapper label {
   font-weight: bold;
 }

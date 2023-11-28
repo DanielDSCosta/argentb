@@ -6,6 +6,12 @@ import { Profile } from "./pages/profile";
 import logo from "./components/img/argentBankLogo.png";
 
 import { useSelector } from "react-redux";
+import session from "redux-persist/lib/storage/session";
+
+function Session() {
+  const token = useSelector((state) => state.user.token);
+  localStorage.removeItem(token);
+}
 
 const Layout = ({ children }) => {
   const token = useSelector((state) => state.user.token);
@@ -30,7 +36,11 @@ const Layout = ({ children }) => {
                 <i class="fa fa-user-circle"></i>
                 Tony
               </a>
-              <a class="main-nav-item" href="/">
+              <a
+                class="main-nav-item"
+                href="/"
+                onClick={localStorage.removeItem(token)}
+              >
                 <i class="fa fa-sign-out"></i>
                 Sign Out
               </a>

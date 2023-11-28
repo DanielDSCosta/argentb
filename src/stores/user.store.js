@@ -1,18 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-
-/*
-
-user: {
-    email: string;
-    firstname: string;
-    ...
-}
-token: {} -> user | null
-*/
+import { combineReducers } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
 const initialState = {
   token: null,
+};
+
+const persistConfig = {
+  key: "root",
+  storage,
 };
 
 export const userSlice = createSlice({
@@ -27,8 +25,14 @@ export const userSlice = createSlice({
 
 export const { setToken } = userSlice.actions;
 
-export const store = configureStore({
-  reducer: {
-    user: userSlice.reducer,
-  },
+const rootReducer = combineReducers({
+  user: userSlice.reducer,
 });
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+});
+
+export const persistor = persistStore(store);
