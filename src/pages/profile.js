@@ -110,7 +110,7 @@ export const ProfileHeader = () => {
         <h1>
           Welcome back
           <br />
-          {username}
+          {firstname} {lastname}
           <br />
           <button className="edit-button" type="Click" onClick={handleEdit}>
             Edit UserName

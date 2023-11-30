@@ -4,18 +4,19 @@ import { Index } from "./pages/index";
 import { Login } from "./pages/login";
 import { Profile } from "./pages/profile";
 import logo from "./components/img/argentBankLogo.png";
+import { logout } from "./stores/user.store";
 
-import { useSelector } from "react-redux";
-import session from "redux-persist/lib/storage/session";
-
-function Session() {
-  const token = useSelector((state) => state.user.token);
-  localStorage.removeItem(token);
-}
+import { useSelector, useDispatch } from "react-redux";
 
 const Layout = ({ children }) => {
-  const token = useSelector((state) => state.user.token);
+  const dispatch = useDispatch();
 
+  const handleSignOut = () => {
+    // Dispatch the logout action
+    dispatch(logout());
+  };
+
+  const token = useSelector((state) => state.user.token);
   const isLogginIn = !!token;
 
   return (
@@ -36,11 +37,7 @@ const Layout = ({ children }) => {
                 <i class="fa fa-user-circle"></i>
                 Tony
               </a>
-              <a
-                class="main-nav-item"
-                href="/"
-                onClick={localStorage.removeItem(token)}
-              >
+              <a class="main-nav-item" href="/" onClick={handleSignOut}>
                 <i class="fa fa-sign-out"></i>
                 Sign Out
               </a>
