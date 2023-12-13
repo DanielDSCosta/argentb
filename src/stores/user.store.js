@@ -4,24 +4,28 @@ import { combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-// Add the logout action to your userSlice
 export const userSlice = createSlice({
   name: "user",
   initialState: {
     token: null,
+    username: "", // Add a new field for the username
   },
   reducers: {
     setToken: (state, action) => {
       state.token = action.payload;
     },
+    setUsername: (state, action) => { // Add a new action to update the username
+      state.username = action.payload;
+    },
     logout: (state) => {
       state.token = null;
+      state.username = ""; // Clear the username when the user logs out
     },
   },
 });
 
 // Destructure the actions for easier use
-export const { setToken, logout } = userSlice.actions;
+export const { setToken, setUsername, logout } = userSlice.actions;
 
 // Combine the reducers
 const rootReducer = combineReducers({

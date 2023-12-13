@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { flushSync } from "react-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateProfile, getProfile } from "../services/users";
+import { setUsername } from "../stores/user.store";
 
 const ACCOUNTS = [
   {
@@ -22,8 +23,9 @@ const ACCOUNTS = [
 ];
 
 export const ProfileHeader = () => {
+  const dispatch = useDispatch();
   const [isEditUsernameFormOpen, setIsEditUsernameOpen] = useState(false);
-  const [username, setUsername] = useState("Tony Jarvis!");
+  const username = useSelector((state) => state.user.username); // Get the username from the Redux store
   const usernameInputRef = useRef();
   const [firstname, setFirstname] = useState();
   const [lastname, setLastname] = useState();
@@ -46,7 +48,7 @@ export const ProfileHeader = () => {
     try {
       const response = await updateProfile(formValues.username, token);
 
-      setUsername(formValues.username);
+      dispatch(setUsername(formValues.username)); // Dispatch the setUsername action
       setIsEditUsernameOpen(false);
     } catch (e) {
       // handle errors

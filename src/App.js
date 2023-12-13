@@ -1,15 +1,17 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Index } from "./pages/index";
 import { Login } from "./pages/login";
 import { Profile } from "./pages/profile";
 import logo from "./components/img/argentBankLogo.png";
-import { logout } from "./stores/user.store";
+import { logout, setUsername } from "./stores/user.store"; 
+import { getProfile } from "./services/users";
 
 import { useSelector, useDispatch } from "react-redux";
 
 const Layout = ({ children }) => {
   const dispatch = useDispatch();
+  const username = useSelector((state) => state.user.username); // Get the username from the Redux store
 
   const handleSignOut = () => {
     // Dispatch the logout action
@@ -18,6 +20,27 @@ const Layout = ({ children }) => {
 
   const token = useSelector((state) => state.user.token);
   const isLogginIn = !!token;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const req = await getProfile(token);
+        if (req.body.userName) {
+          dispatch(setUsername(req.body.userName)); // Dispatch the updateUsername action
+        }
+      } catch (error) {
+        console.error(
+          "Une erreur s'est produite lors de la récupération du profil :",
+          error
+        );
+      }
+    };
+
+    // Assurez-vous que 'token' a une valeur avant d'appeler fetchData
+    if (token) {
+      fetchData();
+    }
+  }, [token]);
 
   return (
     <>
@@ -35,7 +58,7 @@ const Layout = ({ children }) => {
             <div>
               <a class="main-nav-item" href="/user">
                 <i class="fa fa-user-circle"></i>
-                Tony
+                {username}
               </a>
               <a class="main-nav-item" href="/" onClick={handleSignOut}>
                 <i class="fa fa-sign-out"></i>
