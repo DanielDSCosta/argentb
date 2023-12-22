@@ -1,9 +1,9 @@
-import { React, useState, useEffect } from "react";
+import { React, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Index } from "./pages/index";
 import { Login } from "./pages/login";
 import { Profile } from "./pages/profile";
-import logo from "./components/img/argentBankLogo.png";
+import logo from "./assets/img/argentBankLogo.webp";
 import { logout, setUsername } from "./stores/user.store"; 
 import { getProfile } from "./services/users";
 

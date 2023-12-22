@@ -1,6 +1,6 @@
-import chat from "../components/img/icon-chat.png";
-import money from "../components/img/icon-money.png";
-import security from "../components/img/icon-security.png";
+import chat from "../assets/img/icon-chat.webp";
+import money from "../assets/img/icon-money.webp";
+import security from "../assets/img/icon-security.webp";
 
 export const Hero = () => {
   return (
